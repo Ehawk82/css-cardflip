@@ -6,14 +6,41 @@
     <script defer type="text/javascript" src="dynamism.js"></script>
   </head>
 
-  <body>
+  <body class="body">
 
-    <div id="board"></div>
-
-    <div id="footer">
-      <input type="button" id="addcard" value="Add Card"/>
+    <div id="boardCTN">
+        <div id="partyTitle" style="display:none;"> &nbsp; </div>
+        <div id="board"></div>
     </div>
-
-  </body>
+    <div>
+        <button id="slctParty"> &nbsp; </button>
+        <div id="partyPage" style="display:none;">
+            <p>&nbsp;</p>
+            <button id="Party1" class="pBtns"> &nbsp; </button>
+            <button id="Party2" class="pBtns"> &nbsp; </button>
+            <button id="Party3" class="pBtns"> &nbsp; </button>
+            <button id="Party4" class="pBtns"> &nbsp; </button>
+            <button id="Party5" class="pBtns"> &nbsp; </button>
+            <button id="Party6" class="pBtns"> &nbsp; </button>
+        </div>
+    </div>
+    <h3 id="footer">
+        <button id="addcard"> &nbsp; </button>
+        <button id="rmvcard" style="display:none;float:left;">Restart</button>
+        <button id="elect" style="display:none;float:right;margin-right:10%;">Check</button>
+    </h3>
+    <p>&nbsp;</p>
+    <div id="dvScore">
+        <p><label for="spD">Matches:  </label><span id="spD"></span></p>
+        <p><label for="spS">Bonus:  </label><span id="spS"></span></p>
+        <p><label for="moves">Moves:  </label><span id="moves"></span></p>
+        <p><label for="tot">Score:  </label><span id="tot"></span></p>
+    </div>
+    <p>&nbsp;</p>
+    <div id="results"></div>
+    <div id="dtBar">
+        <div id="result"></div>
+    </div>
+</body>
 
 </html>
