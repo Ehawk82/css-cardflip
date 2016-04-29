@@ -1,16 +1,19 @@
 
 'use strict';
 
-	var crd, nm, cdd, cbd, del, sup, movs, Au;
+	var crd, nm, cdd, cbd, del, sup, movs, Au, coins, ldrbrd;
+	ldrbrd = {
+        coins: "",
+	    scr1: "",
+        scr2: "",
+        moves: "",
+        total: ""
+	}
 	crd = [
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-        "1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-        "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"
+        "1", "2", "3", "4", "5", "b"
 	];
 	Au = {}
+	coins = 0
 	movs = {}
 	sup = {}
 	del = {}
@@ -30,6 +33,7 @@
         cardId,
         nn = 0,
         ns;
+    //function sort() { a.map(function (value) {JSON.stringify(value)}); }
 	function byId(X) { return document.getElementById(X); }
 	function genCardId() { return 'card_' + ((++cardCursor).toString()); }
 
@@ -38,6 +42,9 @@
             del = localStorage.getItem("del"),
             sup = localStorage.getItem("sup"),
 	        ns = localStorage.getItem('ns'),
+	        cc = localStorage.getItem('coins'),
+            ldrbrd = localStorage.getItem('ldrbrd'),
+
 	        newIdx = cards.length,
             cardId = genCardId(),
 
@@ -45,6 +52,7 @@
             rand = Math.round(Math.random() * (Qlen - 1)),
 
             cardBox = document.createElement('div'),
+
             card = document.createElement('div'),
 
             front = document.createElement('div'),
@@ -59,7 +67,22 @@
 
 	    byId('board').style.display = 'block';
 	    byId('partyTitle').style.display = 'block';
+	    byId('coinLabel').style.display = 'block';
 
+	    if (ldrbrd) {
+	        console.log(ldrbrd.coins);
+	    }
+
+	    if (!cc) {
+
+	        localStorage.setItem('coins', 0);
+	    }
+	    if (cc) {
+	        if (cc > 0) {
+	            byId('addShuffle').style.display = 'block';
+	        }
+	        coinspan.innerHTML = cc;
+	    }
 	    if (!del) {
 	        localStorage.setItem("del", 0);
 	    }
@@ -113,9 +136,10 @@
 	    byId('board').appendChild(cardBox);
 	    byId('addcard').style.display = 'none';
 	    byId('rmvcard').style.display = 'block';
+
 	    byId('elect').style.display = 'block';
 
-	    if (cardCursor < 50) {
+	    if (cardCursor < 30) {
 	        addcard();
 	    }
 	}
@@ -186,75 +210,115 @@
 	    board.style.background = '#9f8978';
 	    footer.style.display = 'block';
 	    partyTitle.innerHTML = 'op6';
+	    localStorage.clear();
+	}
+
+	function reShuffle() {
+	    var cds = document.querySelectorAll('.nocard input.fntCls'),
+            cdb = document.querySelectorAll('.nocard input.bckCls'),
+	        cd = document.querySelectorAll('.nocard'),
+            cc = localStorage.getItem("coins"),
+	        ccc = +cc - +1;
+
+	    if (cd.length > 0) {
+	        dingFunc();
+	       // console.log(cd);
+	    }
+        //console.log(cd);
+	    for (var r = 0; r < cd.length; r++) {
+
+	        //console.log(cd[r]);
+	        cd[r].className = 'card';
+
+	        for (var t = 0; t < cds.length; t++) {
+	            var Qlen = crd.length;
+	            var pp = Math.round(Math.random() * (Qlen - 1));
+                
+	            cds[t].value = crd[pp];
+	            cdb[t].value = crd[pp];
+	             
+	        }
+	        
+	        //console.log(cd[r]);
+	        localStorage.setItem("coins", ccc);
+
+	        if (ccc === 0) {
+	            return false,
+                byId('addShuffle').style.display = 'none',
+                coinspan.innerHTML = "0";
+	        } else {
+	            coinspan.innerHTML = ccc;
+	        }
+	    }
+    }
+
+	function saveData() {
+	    var lscount = localStorage.length,
+	        scrs = document.querySelectorAll('#dvScore span');
+
+	    ldrbrd.coins = coinspan.innerHTML;
+	    ldrbrd.scr1 = scrs[0].innerHTML;
+	    ldrbrd.scr2 = scrs[1].innerHTML;
+        ldrbrd.moves = scrs[2].innerHTML;
+	    ldrbrd.total = scrs[3].innerHTML;
+
+	    localStorage.setItem("ldrbrd_" + lscount, JSON.stringify(ldrbrd));
+
+	    localStorage.removeItem('cdd');
+	    localStorage.removeItem('sup');
+	    localStorage.removeItem('del');
+	    localStorage.removeItem('movs');
+	    localStorage.removeItem('coins');
+
+        loadData();
 	}
 
 	function electFunc() {
-	    var cds = document.getElementsByClassName('nocard'), elem;
+	    var cds = document.getElementsByClassName('nocard'),
+	        scrs = document.querySelectorAll('#dvScore span');
 	    ticFunc();
 	    boardCTN.style.display = 'none';
 	    dvScore.style.display = 'block';
-	    elect.style.display = 'none';
+	    byId('addShuffle').style.display = 'none',
+	    elect.style.display = 'none'; 
 
-	    if (cds.length === 0) {
-	        elem = " ";
+	    saveData();
+	    /*
+	    ldrbrd.total += scrs[3].innerHTML;
+	    localStorage.setItem("ldrbrd", JSON.stringify(ldrbrd));
+	    
+	    if (ldrbrd) {
+	        console.log(ldrbrd);
+	        results.innerHTML = ldrbrd.total;
 	    }
+        */
+	}
 
-	    console.log(cds.length);
-	    for (var i = 0; i < cds.length; i++) {
+	function loadData() {
+	    var i, renderData, datacount, key;
+	    datacount = localStorage.length;
+	    resultz.style.display = 'block';
+        	        renderData = "<table><tr><td> Coins </td><td> Matches </td><td> Bonus </td><td> Moves </td><td> Score </td></tr>";
+	    if (datacount != "undefined") {
 
-	        if (i < 2) {
-	            elem = " ";
+	        for (i = 0; i < datacount; i++) {
+	            key = localStorage.key(i); //Get Key 
+	            ldrbrd = localStorage.getItem(key); //Get Data
+
+	            try {
+	                var data = JSON.parse(ldrbrd); //Parse Data
+	            }
+	            catch (e) {
+	                continue;
+	            }
+	            renderData += "<tr><td>" + data.coins + "</td><td>" + data.scr1 + "</td><td>" + data.scr2 + "</td><td>" + data.moves + "</td><td>" + data.total + '</td></tr><br />';
+	            //set a data-id and data-index to this element, we need them to select the correct information.
+	            
 	        }
-	        if (i > 3 && i < 5) {
-	            elem = " ";
-	        }
-	        if (i > 6 && i < 9) {
-	            elem = " ";
-	        }
-	        if (i > 10 && i < 12) {
-	            elem = " ";
-	        }
-	        if (i > 13 && i < 15) {
-	            elem = " ";
-	        }
-	        if (i > 16 && i < 18) {
-	            elem = " ";
-	        }
-	        if (i > 19 && i < 21) {
-	            elem = " ";
-	        }
-	        if (i > 22 && i < 24) {
-	            elem = " ";
-	        }
-	        if (i > 25 && i < 27) {
-	            elem = " ";
-	        }
-	        if (i > 28 && i < 30) {
-	            elem = " ";
-	        }
-	        if (i > 31 && i < 33) {
-	            elem = " ";
-	        }
-	        if (i > 34 && i < 35) {
-	            elem = " ";
-	        }
-	        if (i > 36 && i < 38) {
-	            elem = " ";
-	        }
-	        if (i > 39 && i < 41) {
-	            elem = " ";
-	        }
-	        if (i > 42 && i < 44) {
-	            elem = " ";
-	        }
-	        if (i > 45 && i < 47) {
-	            elem = " ";
-	        }
-	        if (i > 48) {
-	            elem = " ";
-	        }
+	        renderData += "</table>";
+	        resultz.innerHTML = renderData;
+	        localStorage.setItem('coins', data.coins);
 	    }
-	    results.innerHTML = elem;
 	}
 
 	function hookInputs() {
@@ -267,6 +331,7 @@
         byId('Party5').onclick = function () { Party5(); },
         byId('Party6').onclick = function () { Party6(); },
 
+        byId('addShuffle').onclick = function () { reShuffle(); },
 	    byId('slctParty').onclick = function () { partyFunc(); },
 	    byId('addcard').onclick = function () { addcard(); },
 	    byId('rmvcard').onclick = function () { rmvCard(); }
@@ -282,6 +347,13 @@
 	function ticFunc() {
 	    var snd;
 	    snd = new Audio("../images/tic.wav");
+	    snd.volume = '0.5';
+	    snd.play();
+	}
+
+	function sSoundFunc() {
+	    var snd;
+	    snd = new Audio("../images/shuff.wav");
 	    snd.volume = '0.5';
 	    snd.play();
 	}
@@ -311,7 +383,6 @@
 	        if (!cdd || cdd === 0) {
 	            cdd.n1 = backbt.value;
 	            localStorage.setItem("cdd", JSON.stringify(cdd));
-
 	        } else {
 	            if (cdd.n1 === "") {
 	                cdd.n1 = backbt.value;
@@ -353,8 +424,8 @@
 	}
 
 	function check() {
-	    var cds, del, sup, movs;
-
+	    var cd, cds, del, sup, movs;
+	    cd = document.getElementsByClassName('nocard');
 	    cds = document.getElementsByClassName('card flipped');
 	    del = localStorage.getItem('del');
 	    sup = localStorage.getItem('sup');
@@ -371,9 +442,12 @@
 	        moves.innerHTML = movs;
 	    }
 
+	    
+
 	    if (cdd) {
 	        if (cdd.n1 === cdd.n2 && cdd.n1 === cdd.n3) {
 	            dingFunc();
+
 	            if (del) {
 	                localStorage.setItem('del', +del + +100);
 	                spD.innerHTML = del;
@@ -385,19 +459,33 @@
 	                spD.innerHTML = del;
 	            }
 
+	            
 
 	            cds[0].className = 'nocard';
 
 	            cds[0].className = 'nocard';
 
-	            cds[0].className = 'nocard';
-
+	            if (cds[0]) {
+	                cds[0].className = 'nocard';
+	            }
+	            
 	            if (cdd.n1 === 'b' && cdd.n2 === 'b' && cdd.n3 === 'b') {
 
 	                if (sup) {
+	                    var cc = localStorage.getItem("coins"),
+	                        ccc = +cc + +10;
 
 	                    localStorage.setItem('sup', +sup + +200);
+	                    localStorage.setItem('coins', ccc);
+	                    if (cc) {
+
+	                            byId('addShuffle').style.display = 'block';
+
+	                        coinspan.innerHTML = ccc;
+	                    }
+	                    
 	                    spS.innerHTML = sup;
+	                    
 	                }
 
 	                if (!sup) {
@@ -411,16 +499,17 @@
 	            cdd.n1 = '';
 	            cdd.n2 = '';
 	            cdd.n3 = '';
+
 	            localStorage.removeItem("crd");
-
-
 
 	        }
 	        if (cdd.n1 != cdd.n2 || cdd.n1 != cdd.n3) {
 	            buzzFunc();
+
 	            cds[0].className = 'card';
 
 	            cds[0].className = 'card';
+
 	            if (cds[0]) {
 	                cds[0].className = 'card';
 	            }
