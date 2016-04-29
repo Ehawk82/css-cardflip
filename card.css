@@ -2,9 +2,11 @@
 
 html, body {
     border: 0;
-    margin: 1%;
+    margin: 0;
     padding: 0;
-    overflow: auto;
+    overflow-y:hidden;
+    overflow-x:auto;
+
     height: 100%;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     font-weight: 300;
@@ -20,12 +22,11 @@ html, body {
     display: inline-block;
     width: 100px;
     height: 100px;
-
     position: relative;
-    -moz-perspective: 800px;
-    -ms-perspective: 800px;
-    -webkit-perspective: 800px;
-    perspective: 800px;
+    -moz-perspective: 1000px;
+    -ms-perspective: 1000px;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
 }
 
 .card {
@@ -42,7 +43,7 @@ html, body {
 }
 
 .fntCls {
-    color:transparent;
+    color:#000;
 }
 
 .fntCls, .bckCls {
@@ -100,10 +101,10 @@ label, span {
     margin:4%;
 }
 
-#addcard, #rmvcard, #elect, .pBtns, #slctParty {
+#addcard, #rmvcard, #elect, .pBtns, #slctParty, #addShuffle {
     height: 100px;
     width: 100px;
-    margin-top: 6%;
+    margin-top: 2%;
     margin-left: 4%;
     background:transparent;
     font-size:2vh;
@@ -119,8 +120,7 @@ label, span {
 }
 
 #boardCTN {
-    margin: 4%;
-    width: 1100px;
+    width: 600px;
 }
 
 #result {
@@ -141,7 +141,7 @@ label, span {
 }
 
 #board {
-    padding-bottom:4%;
+    padding:10% 0;
     display:none;
 
 }
@@ -181,7 +181,23 @@ label, span {
     border:1px dotted grey;
 }
 
-#results {
+#resultz {
     font-size:3vh;
     width:60%;
+    display:none;
+    position:relative;
+}
+table {
+    position:absolute;
+    overflow:scroll;
+    top:0;
+    right:20px;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align:center;
+}
+th, td {
+    padding: 15px;
 }
