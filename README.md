@@ -1,23 +1,19 @@
-# css-cardflip
+# css-cardflip branch cc1
 
-going to learn this the right way.  
 #Intro: 
 
-we are going to start with the basic card flip and evolve it in to a game.
+The basic layout of the progress on VS2015
 
 using: JavaScript, HTML5, and CSS.  
--className, sort, map.... those are the things. 
 
-#goals:
-One option to trying to morph map and sort in to this, is to make a new button that will shuffle the cards that are gone and redistribute them as new cards in the same spot>
--function that does a reshuffle, (but only for the cards that are not on the board ".nocard".)
--in that function scope, >after the shuffle<, set the cards back to ".card"
+features:
+-reshuffle
+-bonus set to ten for testing.
+-in game coins to spend on reshuffles.  
+
 
 #notes: 
-match 3(Math.random will not return an even game board, need to map and sort)
+IAPs are an issue.  
 
 _________________________
--forked from John Haugeland-
-because i'm tired of looking these up, and someone(Ehawk [-edit by Ehawk]) wanted to know how
-
-adapted from [desandro's](https://desandro.github.io/3dtransforms/docs/card-flip.html)
+current data
