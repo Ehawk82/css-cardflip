@@ -1,5 +1,5 @@
-
-'use strict';
+(function () {
+	"use strict";
 
 	var crd, nm, cdd, cbd, del, sup, movs, Au, coins, ldrbrd;
 	ldrbrd = {
@@ -33,7 +33,9 @@
         cardId,
         nn = 0,
         ns;
-    //function sort() { a.map(function (value) {JSON.stringify(value)}); }
+    ///
+
+
 	function byId(X) { return document.getElementById(X); }
 	function genCardId() { return 'card_' + ((++cardCursor).toString()); }
 
@@ -68,7 +70,7 @@
 	    byId('board').style.display = 'block';
 	    byId('partyTitle').style.display = 'block';
 	    byId('coinLabel').style.display = 'block';
-
+	    byId('purchase').style.display = 'block';
 	    if (ldrbrd) {
 	        console.log(ldrbrd.coins);
 	    }
@@ -79,6 +81,7 @@
 	    }
 	    if (cc) {
 	        if (cc > 0) {
+	            coinspan.innerHTML = cc;
 	            byId('addShuffle').style.display = 'block';
 	        }
 	        coinspan.innerHTML = cc;
@@ -99,7 +102,7 @@
 	        localStorage.setItem("sup", 0);
 	    }
 	    if (sup) {
-	        localStorage.setItem("sup", 200);
+	        localStorage.setItem("sup", 0);
 	    }
 
 	    cards.push(cardId);
@@ -115,7 +118,9 @@
 	    frontbt.style.height = '50px';
 	    frontbt.onclick = flipper;
 	    frontbt.value = "" + crd[rand] + "";
+
 	    backbt.value = "" + crd[rand] + "";
+	    backbt.style.backgroundImage = 'url(../images/' + crd[rand] + '.png)';
 	    backbt.type = 'button';
 	    backbt.style.height = '50px';
 
@@ -138,17 +143,21 @@
 	    byId('rmvcard').style.display = 'block';
 
 	    byId('elect').style.display = 'block';
-
+	    if (cardCursor < 2) {
+	        ticFunc();
+	    }
 	    if (cardCursor < 30) {
 	        addcard();
 	    }
 	}
 
 	function rmvCard() {
+	    ticFunc();
 	    localStorage.removeItem("cdd");
 	    localStorage.removeItem("cbd");
 	    localStorage.removeItem("del");
 	    localStorage.removeItem("sup");
+	    
 	    location.reload();
 	}
 
@@ -162,55 +171,54 @@
 	    ticFunc();
 	    partyPage.style.display = 'none';
 	    board.style.border = '5px solid rgba(0,0,0,0.4)';
-	    board.style.background = '#b47a7a';
+	    board.style.background = '#ff5959';
 	    footer.style.display = 'block';
-	    partyTitle.innerHTML = 'op1';
+	    partyTitle.innerHTML = 'Red Rombus';
 	}
 
 	function Party2() {
 	    ticFunc();
 	    partyPage.style.display = 'none';
 	    board.style.border = '5px solid rgba(0,0,0,0.4)';
-	    board.style.background = '#7a7fa7';
+	    board.style.background = '#4358ff';
 	    footer.style.display = 'block';
-	    partyTitle.innerHTML = 'op2';
+	    partyTitle.innerHTML = 'Blue Matrix';
 	}
 
 	function Party3() {
 	    ticFunc();
 	    partyPage.style.display = 'none';
 	    board.style.border = '5px solid rgba(0,0,0,0.4)';
-	    board.style.background = '#907d96';
+	    board.style.background = '#cf36ff';
 	    footer.style.display = 'block';
-	    partyTitle.innerHTML = 'op3';
+	    partyTitle.innerHTML = 'Purple Pythagoras';
 	}
 
 	function Party4() {
 	    ticFunc();
 	    partyPage.style.display = 'none';
 	    board.style.border = '5px solid rgba(0,0,0,0.4)';
-	    board.style.background = '#98be88';
+	    board.style.background = '#87ff55';
 	    footer.style.display = 'block';
-	    partyTitle.innerHTML = 'op4';
+	    partyTitle.innerHTML = 'Green Cats';
 	}
 
 	function Party5() {
 	    ticFunc();
 	    partyPage.style.display = 'none';
 	    board.style.border = '5px solid rgba(0,0,0,0.4)';
-	    board.style.background = '#72b1af';
+	    board.style.background = '#20fff8';
 	    footer.style.display = 'block';
-	    partyTitle.innerHTML = 'op5';
+	    partyTitle.innerHTML = 'Cyan Cubes';
 	}
 
 	function Party6() {
 	    ticFunc();
 	    partyPage.style.display = 'none';
 	    board.style.border = '5px solid rgba(0,0,0,0.4)';
-	    board.style.background = '#9f8978';
+	    board.style.background = '#ff913d';
 	    footer.style.display = 'block';
-	    partyTitle.innerHTML = 'op6';
-	    localStorage.clear();
+	    partyTitle.innerHTML = 'Orange Polygons';
 	}
 
 	function reShuffle() {
@@ -220,12 +228,11 @@
             cc = localStorage.getItem("coins"),
 	        ccc = +cc - +1;
 
-	    if (cd.length > 0) {
+	    if (cd.length >= 1) {
 	        dingFunc();
+	        cd.className = 'card';
 	       // console.log(cd);
-	    }
-        //console.log(cd);
-	    for (var r = 0; r < cd.length; r++) {
+           for (var r = 0; r < cd.length; r++) {
 
 	        //console.log(cd[r]);
 	        cd[r].className = 'card';
@@ -235,21 +242,26 @@
 	            var pp = Math.round(Math.random() * (Qlen - 1));
                 
 	            cds[t].value = crd[pp];
-	            cdb[t].value = crd[pp];
-	             
+	            cdb[t].style.backgroundImage = "../images/" + crd[pp] + ".png";
+	            
+
 	        }
-	        
+
 	        //console.log(cd[r]);
 	        localStorage.setItem("coins", ccc);
 
-	        if (ccc === 0) {
+            if (ccc < 0) {
 	            return false,
                 byId('addShuffle').style.display = 'none',
                 coinspan.innerHTML = "0";
 	        } else {
 	            coinspan.innerHTML = ccc;
 	        }
+	        
 	    }
+	    }
+        //console.log(cd);
+	    
     }
 
 	function saveData() {
@@ -282,22 +294,21 @@
 	    byId('addShuffle').style.display = 'none',
 	    elect.style.display = 'none'; 
 
-	    saveData();
-	    /*
-	    ldrbrd.total += scrs[3].innerHTML;
-	    localStorage.setItem("ldrbrd", JSON.stringify(ldrbrd));
-	    
-	    if (ldrbrd) {
-	        console.log(ldrbrd);
-	        results.innerHTML = ldrbrd.total;
+	    if (cds.length === 30) {
+	        dtBar.innerHTML += "<br /> HOLY COW! you managed to get all the cards! Epic gamer gets epic bonus and it's over 9000! (+9001)";
+	        scrs[1].innerHTML = +9001;
+
 	    }
-        */
+
+	    saveData();
+	    
 	}
 
 	function loadData() {
 	    var i, renderData, datacount, key;
 	    datacount = localStorage.length;
 	    resultz.style.display = 'block';
+        dtBar.style.display = 'block';
         	        renderData = "<table><tr><td> Coins </td><td> Matches </td><td> Bonus </td><td> Moves </td><td> Score </td></tr>";
 	    if (datacount != "undefined") {
 
@@ -312,17 +323,35 @@
 	                continue;
 	            }
 	            renderData += "<tr><td>" + data.coins + "</td><td>" + data.scr1 + "</td><td>" + data.scr2 + "</td><td>" + data.moves + "</td><td>" + data.total + '</td></tr><br />';
-	            //set a data-id and data-index to this element, we need them to select the correct information.
-	            
+
 	        }
-	        renderData += "</table>";
+	        renderData += "</table><br />";
+
 	        resultz.innerHTML = renderData;
+
 	        localStorage.setItem('coins', data.coins);
 	    }
 	}
 
+	function dltFunc() {
+	    dltPage.style.display = 'block';
+	    window.scrollTo(0, 0);
+	}
+
+	function dltNoFunc() {
+	    dltPage.style.display = 'none';
+	}
+
+	function dltYesFunc() {
+	    localStorage.clear();
+	    location.reload();
+	}
+
 	function hookInputs() {
 	    byId('elect').onclick = function () { electFunc(); },
+        byId('dlt').onclick = function () { dltFunc(); },
+        byId('dltNo').onclick = function () { dltNoFunc(); },
+        byId('dltYes').onclick = function () { dltYesFunc(); },
 
 	    byId('Party1').onclick = function () { Party1(); },
         byId('Party2').onclick = function () { Party2(); },
@@ -334,7 +363,7 @@
         byId('addShuffle').onclick = function () { reShuffle(); },
 	    byId('slctParty').onclick = function () { partyFunc(); },
 	    byId('addcard').onclick = function () { addcard(); },
-	    byId('rmvcard').onclick = function () { rmvCard(); }
+	    byId('rmvcard').onclick = function () { ticFunc(); rmvCard(); }
 	}
 
 	function swipeFunc() {
@@ -442,8 +471,6 @@
 	        moves.innerHTML = movs;
 	    }
 
-	    
-
 	    if (cdd) {
 	        if (cdd.n1 === cdd.n2 && cdd.n1 === cdd.n3) {
 	            dingFunc();
@@ -473,7 +500,7 @@
 
 	                if (sup) {
 	                    var cc = localStorage.getItem("coins"),
-	                        ccc = +cc + +10;
+	                        ccc = +cc + +1;
 
 	                    localStorage.setItem('sup', +sup + +200);
 	                    localStorage.setItem('coins', ccc);
@@ -501,9 +528,9 @@
 	            cdd.n3 = '';
 
 	            localStorage.removeItem("crd");
-
 	        }
 	        if (cdd.n1 != cdd.n2 || cdd.n1 != cdd.n3) {
+
 	            buzzFunc();
 
 	            cds[0].className = 'card';
@@ -520,7 +547,6 @@
 	            localStorage.removeItem("crd");
 
 	        }
-
 	    }
 	}
 
@@ -539,3 +565,4 @@
 	}
 
 	window.onload = startup;
+})();
