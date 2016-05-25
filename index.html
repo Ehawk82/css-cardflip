@@ -3,19 +3,35 @@
 
   <head>
     <link rel="stylesheet" type="text/css" href="card.css"/>
+    <script src="//Microsoft.Advertising.JavaScript/ad.js"></script>
     <script defer type="text/javascript" src="dynamism.js"></script>
   </head>
 
 <body class="body">
+    <!--ad space-->
 
+    <div id="myAd" style="position: absolute; top: 1%; right: 2%; width: 300px; height: 250px; z-index: 1"
+         data-win-control="MicrosoftNSJS.Advertising.AdControl"
+         data-win-options="{applicationId: '452a0d95-f53e-49fd-b795-c4827b0fb116', adUnitId: '11620120'}">
+    </div>
+
+    <!--main-->
+    <div id="dltPage" style="display:none;height:100vh;width:100vw;z-index:50;background:white;position:absolute;">
+        <p>
+            Do you wish to delete your leaderboard, coins, and settings?<br />
+            This will restore the game to the intiial settings.
+        </p>
+        <button id="dltYes">Yes</button>
+        <button id="dltNo">No</button>
+    </div>
     <div id="boardCTN">
         <div id="partyTitle" style="display:none;"> &nbsp; </div>
         <div id="board"></div>
-        
     </div>
     <div>
-        <button id="slctParty"> &nbsp; </button>
+        <button id="slctParty"> Start </button>
         <div id="partyPage" style="display:none;">
+            <h3>Choose a Team!</h3>
             <p>&nbsp;</p>
             <button id="Party1" class="pBtns"> &nbsp; </button>
             <button id="Party2" class="pBtns"> &nbsp; </button>
@@ -23,14 +39,20 @@
             <button id="Party4" class="pBtns"> &nbsp; </button>
             <button id="Party5" class="pBtns"> &nbsp; </button>
             <button id="Party6" class="pBtns"> &nbsp; </button>
+            <p>&nbsp;</p>
+            <strong>
+                - Match 3 like cards to earn points. <br />
+                - You can earn coins by finding bonus cards! <br />
+                - There is a grand prize if you can clear the board! <br />
+            </strong>
         </div>
     </div>
     <div id="coinLabel" style="display:none;">Coins <span id="coinspan"></span></div>
     <h3 id="footer">
-        <button id="addcard"> &nbsp; </button>
+        <button id="addcard"> Go! </button>
         <button id="rmvcard" style="display:none;float:left;">Restart</button>
-        <button id="addShuffle" style="display:none;float:left;"> Bonus </button>
         <button id="elect" style="display:none;float:left;">Check</button>
+        <button id="addShuffle" style="display:none;float:left;"> Bonus </button>
     </h3>
     <p>&nbsp;</p>
     <br />
@@ -42,12 +64,13 @@
         <p><label for="tot">Score:  </label><span id="tot"></span></p>
     </div>
     <p>&nbsp;</p>
-<br />
-    <p>&nbsp;</p>
-    <div id="resultz"></div>
+    <br />
     <div id="dtBar">
+        <button id="dlt">Clear All</button>
         <div id="result"></div>
     </div>
+    <p>&nbsp;</p>
+    <div id="resultz"></div>
 </body>
 
 </html>
